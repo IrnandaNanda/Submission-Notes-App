@@ -2,7 +2,7 @@
 .note-list {
     font-family: 'Winky Sans';
     display: grid;
-    margin-top: 80px;
+    /* margin-top: 80px; */
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-gap: 10px;
 }

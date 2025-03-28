@@ -13,3 +13,13 @@ main {
     grid-template-columns: 1fr 3fr;
     margin: 0 auto;
 }
+
+@media screen and (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+    
+    note-list {
+        margin-top: 1rem;
+    }
+}
