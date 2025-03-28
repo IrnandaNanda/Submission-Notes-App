@@ -108,13 +108,5 @@ const notesData = [
   
   console.log(notesData);
 
-  export function addNote(note) {
-    notesData.push(note);
-    // Dispatch event untuk update UI
-    const event = new CustomEvent('notes-updated', { 
-        detail: notesData,
-        bubbles: true,
-        composed: true 
-    });
-    document.dispatchEvent(event);
-  }
+  
+  export default notesData

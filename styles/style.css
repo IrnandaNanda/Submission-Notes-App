@@ -7,3 +7,9 @@ body {
     font-family: 'Winky Sans', Courier, monospace;
     background-color: #eff7f6;
 }
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    margin: 0 auto;
+}
