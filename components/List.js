@@ -4,10 +4,31 @@ class List extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.notesData = [...notesData]; // Menyimpan salinan data di dalam class
+
+    // Ambil data dari localStorage atau gunakan default dari notesData
+    this.notesData = JSON.parse(localStorage.getItem("notes")) || [...notesData];
   }
 
   connectedCallback() {
+    this.render();
+    this.listenForNewNote();
+  }
+
+  listenForNewNote() {
+    window.addEventListener("note-added", (event) => {
+      this.addNote(event.detail);
+    });
+  }
+
+  addNote(note) {
+    this.notesData.push(note);
+    localStorage.setItem("notes", JSON.stringify(this.notesData)); // Update localStorage
+    this.render();
+  }
+
+  deleteNote(id) {
+    this.notesData = this.notesData.filter(note => note.id !== id);
+    localStorage.setItem("notes", JSON.stringify(this.notesData)); // Update localStorage
     this.render();
   }
 
@@ -21,7 +42,7 @@ class List extends HTMLElement {
             <p>${item.body}</p>
             <span>${new Date(item.createdAt).toLocaleString()}</span>
             <div class="note-actions">
-              <button class="edit" data-id="${item.id}">Edit</button>
+            <button class="edit" data-id="${item.id}">Edit</button>
               <button class="delete" data-id="${item.id}">Delete</button>
             </div>
           </div>
@@ -29,16 +50,11 @@ class List extends HTMLElement {
       </div>
     `;
 
-    // Tambahkan event listener setelah render
     this.shadowRoot.querySelectorAll('.delete').forEach(button => {
       button.addEventListener('click', (e) => this.deleteNote(e.target.dataset.id));
     });
   }
-
-  deleteNote(id) {
-    this.notesData = this.notesData.filter(note => note.id !== id);
-    this.render(); // Render ulang setelah menghapus data
-  }
 }
 
-customElements.define('note-list', List);
+customElements.define("note-list", List);
+export default List;
