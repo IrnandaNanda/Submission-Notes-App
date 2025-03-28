@@ -1,0 +1,36 @@
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 80%;
+    padding: 10px;
+    border: 2px solid #b2f7ef;
+    border-radius: 5px;
+}
+
+button {
+    display: block;
+    width: 80%;
+    padding: 10px;
+    background-color: #b2f7ef;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Winky Sans';
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #73efe1;
+}
+
+form {
+    display: flex;
+    /* width: 80%; */
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+}
