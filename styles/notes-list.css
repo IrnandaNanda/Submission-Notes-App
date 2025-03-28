@@ -32,3 +32,25 @@ span {
     color: orange;
     text-align: center;
 }
+
+.note-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+button {
+    width: 20%;
+    padding: 5px;
+    background-color: #b2f7ef;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Winky Sans';
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #73efe1;
+}

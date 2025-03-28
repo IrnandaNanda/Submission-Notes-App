@@ -4,8 +4,8 @@ class Form extends HTMLElement {
     this.render();
   }
 
-  connectedCallback(){
-    this.render()
+  connectedCallback() {
+    this.render();
   }
   render() {
     this.innerHTML = `
@@ -24,6 +24,39 @@ class Form extends HTMLElement {
         </form>
     `;
   }
+
+  attachEventListener() {
+    const form = this.querySelector('#note-form');
+    form.addEventListener('submit', this.handleSubmit.bind(this));
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const title = this.querySelector('#titleNotes').value;
+    const body = this.querySelector('#noteBody').value;
+
+    const newNote = {
+      id: generateId(),
+      title,
+      body,
+      createdAt: new Date().toISOString(),
+      archived: false,
+    };
+
+    const errorMessage = validateNote(title, body);
+    if (errorMessage) {
+      alert(errorMessage);
+      return;
+    }
+
+    addNote(newNote);
+
+
+    this.querySelector('#titleNotes').value = '';
+    this.querySelector('#noteBody').value = '';
+    alert('Catatan berhasil ditambahkan!');
+  }
 }
 
 customElements.define("main-form", Form);
+export default Form;
