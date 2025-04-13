@@ -1,4 +1,4 @@
-import { validateNote } from "../scripts/utils.js";
+import { validateNote } from "../scripts/data/utils.js";
 
 class Form extends HTMLElement {
   constructor() {

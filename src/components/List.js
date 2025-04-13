@@ -1,4 +1,4 @@
-import notesData from "../scripts/data.js";
+import notesData from "../scripts/data/data.js";
 
 class List extends HTMLElement {
   constructor() {
