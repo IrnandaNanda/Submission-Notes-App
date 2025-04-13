@@ -34,7 +34,63 @@ class List extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="styles/notes-list.css">
+      <style>
+        .note-list {
+    font-family: 'Winky Sans';
+    display: grid;
+    /* margin-top: 80px; */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 10px;
+}
+
+.note-item{
+    border: 1px solid #19c9ec;
+    padding: 15px;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #19c9ec;
+    text-align: center;
+}
+
+p {
+    font-size: 0.8em;
+    color: black;
+    text-align: center;
+}
+
+span {
+    font-size: 0.8em;
+    color: orange;
+    text-align: center;
+}
+
+.note-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+button {
+    width: 20%;
+    padding: 5px;
+    background-color: #b2f7ef;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Winky Sans';
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #73efe1;
+}
+      </style>
       <div class="note-list">
         ${this.notesData.map(item => `
           <div class="note-item">

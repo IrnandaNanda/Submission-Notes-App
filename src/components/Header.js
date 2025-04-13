@@ -6,7 +6,16 @@ class Navbar extends HTMLElement {
 
     render(){
         this.innerHTML = `
-            <link rel="stylesheet" href="styles/navbar.css">
+            <style>
+    nav {
+    /* background-color: #7bdff2; */
+    color: #19c9ec;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.5em;
+    font-weight: 300;
+}
+</style>
             <nav>
                 <h2>Notes App</h2>
             </nav>
