@@ -23,8 +23,8 @@ class List extends HTMLElement {
   }
 
   listenForNewNote() {
-    window.addEventListener("note-added", (event) => {
-      this.addNote(event.detail);
+    window.addEventListener("note-added", () => {
+      this.render(); // Render ulang setelah catatan baru ditambahkan
     });
   }
 
@@ -114,7 +114,7 @@ button:hover {
             <p>${item.body}</p>
             <span>${new Date(item.createdAt).toLocaleString()}</span>
             <div class="note-actions">
-            <button class="edit" data-id="${item.id}">Edit</button>
+            <button class="edit" data-id="${item.id}">Arcive</button>
               <button class="delete" data-id="${item.id}">Delete</button>
             </div>
           </div>

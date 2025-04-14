@@ -13,7 +13,7 @@ class Form extends HTMLElement {
 
   addSubmitEvent() {
     const form = this.querySelector("#note-form");
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       const title = this.querySelector("#titleNotes").value.trim();
@@ -27,11 +27,26 @@ class Form extends HTMLElement {
       };
 
       console.log("Mengirim event note-added:", newNote);
+      // Simulasi pengiriman data ke server
+      try {
+        const response = await fetch("https://notes-api.dicoding.dev/v2/notes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newNote),
+        })
+      }
+
+      catch (error) {
+        console.error("Error saat mengirim catatan:", error);
+        return;
+      }
 
       // Simpan ke localStorage
-      const storedNotes = JSON.parse(localStorage.getItem("notes")) || [];
-      storedNotes.push(newNote);
-      localStorage.setItem("notes", JSON.stringify(storedNotes));
+      // const storedNotes = JSON.parse(localStorage.getItem("notes")) || [];
+      // storedNotes.push(newNote);
+      // localStorage.setItem("notes", JSON.stringify(storedNotes));
 
       // Dispatch event agar List.js menangkapnya
       window.dispatchEvent(new CustomEvent("note-added", { detail: newNote }));
