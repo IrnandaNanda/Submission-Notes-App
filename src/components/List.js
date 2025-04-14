@@ -28,16 +28,22 @@ class List extends HTMLElement {
     });
   }
 
-  addNote(note) {
-    this.notesData.push(note);
-    localStorage.setItem("notes", JSON.stringify(this.notesData)); // Update localStorage
-    this.render();
-  }
+  // addNote(note) {
+  //   this.notesData.push(note);
+  //   localStorage.setItem("notes", JSON.stringify(this.notesData)); // Update localStorage
+  //   this.render();
+  // }
 
-  deleteNote(id) {
-    this.notesData = this.notesData.filter(note => note.id !== id);
-    localStorage.setItem("notes", JSON.stringify(this.notesData)); // Update localStorage
-    this.render();
+  async deleteNote(id) {
+    const response = await fetch(`${baseUrl}/notes/${id}`, {
+      method: 'DELETE'
+    })
+
+    // const responseJson = await response.json()
+    if(response.status >= 200 && response.status < 300) {
+      this.render();
+    }
+
   }
 
   async render() {
