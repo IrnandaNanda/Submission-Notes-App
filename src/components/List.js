@@ -1,12 +1,20 @@
-import notesData from "../scripts/data/data.js";
+// import notesData from "../scripts/data/data.js";
 
+const baseUrl = 'https://notes-api.dicoding.dev/v2'
 class List extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
 
     // Ambil data dari localStorage atau gunakan default dari notesData
-    this.notesData = JSON.parse(localStorage.getItem("notes")) || [...notesData];
+    this.notesData = async () => {
+      const response = await fetch(`${baseUrl}/notes`)
+      if(response.status >= 200 && response.status < 300) {
+        const responseJson = await response.json()
+        console.log(responseJson.data)
+        return responseJson.data
+      }
+    }
   }
 
   connectedCallback() {
@@ -32,7 +40,9 @@ class List extends HTMLElement {
     this.render();
   }
 
-  render() {
+  async render() {
+    const notes = await this.notesData();
+
     this.shadowRoot.innerHTML = `
       <style>
         .note-list {
@@ -92,7 +102,7 @@ button:hover {
 }
       </style>
       <div class="note-list">
-        ${this.notesData.map(item => `
+        ${notes.map((item) => `
           <div class="note-item">
             <h3>${item.title}</h3>
             <p>${item.body}</p>

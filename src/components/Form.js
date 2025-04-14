@@ -22,10 +22,8 @@ class Form extends HTMLElement {
       validateNote(title, body);
 
       const newNote = {
-        id: `notes-${Date.now()}`,
         title,
         body,
-        createdAt: new Date().toISOString(),
       };
 
       console.log("Mengirim event note-added:", newNote);
