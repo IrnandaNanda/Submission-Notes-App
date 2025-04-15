@@ -1,4 +1,7 @@
 import { validateNote } from "../scripts/data/utils.js";
+import Swal from "sweetalert2";
+
+const proses = document.querySelector(".loading")
 
 class Form extends HTMLElement {
   constructor() {
@@ -26,9 +29,9 @@ class Form extends HTMLElement {
         body,
       };
 
-      console.log("Mengirim event note-added:", newNote);
       // Simulasi pengiriman data ke server
       try {
+        proses.style.display = "block"
         const response = await fetch("https://notes-api.dicoding.dev/v2/notes", {
           method: "POST",
           headers: {
@@ -36,6 +39,30 @@ class Form extends HTMLElement {
           },
           body: JSON.stringify(newNote),
         })
+
+        if(!response.ok) {
+          Swal.fire({
+            position: 'top-end',
+            title: 'Error!',
+            text: ErrorresponseJson.message,
+            icon: 'error',
+            confirmButton: 'false',
+            timer: 1000
+          })
+          const ErrorresponseJson = await response.json()
+          throw new Error("Gagal mengirim catatan ke server");
+        } else {
+          const responseJson = await response.json()
+          Swal.fire({
+            position: 'top-end',
+            icon: "success",
+            title: "Catatan berhasil ditambahkan",
+            text: responseJson.message,
+            showConfirmButton: false,
+            timer: 1000
+          })
+        }
+        proses.style.display = "none"
       }
 
       catch (error) {
