@@ -1,6 +1,7 @@
-// import notesData from "../scripts/data/data.js";
+import Swal from "sweetalert2";
 
 const baseUrl = 'https://notes-api.dicoding.dev/v2'
+const proses = document.querySelector(".loading")
 class List extends HTMLElement {
   constructor() {
     super();
@@ -11,7 +12,6 @@ class List extends HTMLElement {
       const response = await fetch(`${baseUrl}/notes`)
       if(response.status >= 200 && response.status < 300) {
         const responseJson = await response.json()
-        console.log(responseJson.data)
         return responseJson.data
       }
     }
@@ -35,19 +35,39 @@ class List extends HTMLElement {
   // }
 
   async deleteNote(id) {
+    proses.style.display = "block"
     const response = await fetch(`${baseUrl}/notes/${id}`, {
       method: 'DELETE'
     })
 
-    // const responseJson = await response.json()
+    const responseJson = await response.json()
+    Swal.fire({
+      position: 'top-end',
+      icon: "success",
+      title: "Catatan berhasil dihapus",
+      text: responseJson.status,
+      showConfirmButton: false,
+      timer: 1000
+    })
     if(response.status >= 200 && response.status < 300) {
       this.render();
+    } else {
+      console.error("Error saat menghapus catatan:", responseJson.message);
+      Swal.fire({
+        position: 'top-end',
+        title: 'Error!',
+        text: responseJson.status,
+        icon: 'error',
+        confirmButton: 'false',
+        timer: 1000
+      })
     }
-
+    proses.style.display = "none"
   }
 
   async arciveNote(id) {
     try{
+      proses.style.display = "block"
       const response = await fetch(`${baseUrl}/notes/${id}/archive`,{
         method: 'POST',
         headers: {
@@ -55,12 +75,31 @@ class List extends HTMLElement {
         },
       });
 
+      const responseJson = await response.json()
       if(response.status >= 200 && response.status < 300) {
-        const responseJson = await response.json()
+        Swal.fire({
+          position: 'top-end',
+          icon: "success",
+          title: "Catatan berhasil diarsipkan",
+          text: responseJson.status,
+          showConfirmButton: false,
+          timer: 1000
+        })
         window.dispatchEvent(new CustomEvent("note-archive"));
         this.render()
+      } else {
+        console.error("Error saat menghapus catatan:", responseJson.message);
+        Swal.fire({
+          position: 'top-end',
+          icon: "error",
+          title: 'Error!',
+          text: responseJson.status,
+          icon: 'error',
+          confirmButton: 'false',
+          timer: 1000
+        })
       }
-
+      proses.style.display = "none"
     } catch(error) {
       console.error("Error saat mengarsipkan catatan:", error);
       return;
@@ -74,7 +113,7 @@ class List extends HTMLElement {
       <style>
         .note-list {
     font-family: 'Winky Sans';
-    display: grid;
+        display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-gap: 10px;
 }
@@ -92,6 +131,12 @@ h3 {
     color: #19c9ec;
     text-align: center;
 }
+
+h2 {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    }
 
 p {
     font-size: 0.8em;
@@ -126,7 +171,10 @@ button {
 button:hover {
     background-color: #73efe1;
 }
+
+
       </style>
+      <h2>Notes</h2>
       <div class="note-list">
         ${notes.map((item) => `
           <div class="note-item">
@@ -135,7 +183,7 @@ button:hover {
             <span>${new Date(item.createdAt).toLocaleString()}</span>
             <div class="note-actions">
             <button class="arcive" data-id="${item.id}">Arcive</button>
-              <button class="delete" data-id="${item.id}">Delete</button>
+            <button class="delete" data-id="${item.id}">Delete</button>
             </div>
           </div>
         `).join('')}
