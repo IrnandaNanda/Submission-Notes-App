@@ -46,6 +46,27 @@ class List extends HTMLElement {
 
   }
 
+  async arciveNote(id) {
+    try{
+      const response = await fetch(`${baseUrl}/notes/${id}/archive`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if(response.status >= 200 && response.status < 300) {
+        const responseJson = await response.json()
+        window.dispatchEvent(new CustomEvent("note-archive"));
+        this.render()
+      }
+
+    } catch(error) {
+      console.error("Error saat mengarsipkan catatan:", error);
+      return;
+    }
+  } 
+
   async render() {
     const notes = await this.notesData();
 
@@ -54,7 +75,6 @@ class List extends HTMLElement {
         .note-list {
     font-family: 'Winky Sans';
     display: grid;
-    /* margin-top: 80px; */
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-gap: 10px;
 }
@@ -114,7 +134,7 @@ button:hover {
             <p>${item.body}</p>
             <span>${new Date(item.createdAt).toLocaleString()}</span>
             <div class="note-actions">
-            <button class="edit" data-id="${item.id}">Arcive</button>
+            <button class="arcive" data-id="${item.id}">Arcive</button>
               <button class="delete" data-id="${item.id}">Delete</button>
             </div>
           </div>
@@ -125,6 +145,9 @@ button:hover {
     this.shadowRoot.querySelectorAll('.delete').forEach(button => {
       button.addEventListener('click', (e) => this.deleteNote(e.target.dataset.id));
     });
+    this.shadowRoot.querySelectorAll('.arcive').forEach(button => {
+      button.addEventListener('click', (e) => this.arciveNote(e.target.dataset.id));
+    })
   }
 }
 

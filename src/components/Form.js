@@ -103,7 +103,7 @@ form {
               <input type="text" name="titleNotes" id="titleNotes" placeholder="Judul Catatan" required>
               <label for='noteBody'>Isi Catatan</label>
               <textarea id="noteBody" placeholder="Isi catatan" required></textarea>
-              <button type="submit">Simpan Catatan</button>
+              <button type="submit">Simpan</button>
           </section>
           </div>
       </form>
