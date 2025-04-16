@@ -1,4 +1,6 @@
 import Swal from "sweetalert2";
+import { animate, press } from "motion";
+
 
 const baseUrl = 'https://notes-api.dicoding.dev/v2'
 const proses = document.querySelector(".loading")
@@ -192,9 +194,19 @@ button:hover {
 
     this.shadowRoot.querySelectorAll('.delete').forEach(button => {
       button.addEventListener('click', (e) => this.deleteNote(e.target.dataset.id));
+      press(button, (element) => {
+        animate(element, { scale: 0.8 }, { type: "spring", stiffness: 1000 })
+        return () =>
+            animate(element, { scale: 1 }, { type: "spring", stiffness: 500 })
+    })
     });
     this.shadowRoot.querySelectorAll('.arcive').forEach(button => {
       button.addEventListener('click', (e) => this.arciveNote(e.target.dataset.id));
+      press(button, (element) => {
+        animate(element, { scale: 0.8 }, { type: "spring", stiffness: 1000 })
+        return () =>
+            animate(element, { scale: 1 }, { type: "spring", stiffness: 500 })
+    })
     })
   }
 }

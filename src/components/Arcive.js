@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import { animate, press } from "motion";
 
 const baseUrl = "https://notes-api.dicoding.dev/v2";
 const proses = document.querySelector(".loading")
@@ -165,12 +166,24 @@ class archive extends HTMLElement {
       .forEach((button) => {
         button.addEventListener("click", (event) => {
           const id = event.target.dataset.id;
-          this.deleteNote(id);
+          this.deleteNote(id); 
         });
+        press(button, (element) => {
+          animate(element, { scale: 0.8 }, { type: "spring", stiffness: 1000 })
+          return () =>
+              animate(element, { scale: 1 }, { type: "spring", stiffness: 500 })
+      })
       });
+
     this.shadowRoot.querySelectorAll('.unarchive-button').forEach((button) => {
         button.addEventListener('click', (event) => this.unarciveNote(event.target.dataset.id))
+        press(button, (element) => {
+          animate(element, { scale: 0.8 }, { type: "spring", stiffness: 1000 })
+          return () =>
+              animate(element, { scale: 1 }, { type: "spring", stiffness: 500 })
+      })
     })
+    
   }
 }
 
