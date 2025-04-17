@@ -70,11 +70,6 @@ class Form extends HTMLElement {
         return;
       }
 
-      // Simpan ke localStorage
-      // const storedNotes = JSON.parse(localStorage.getItem("notes")) || [];
-      // storedNotes.push(newNote);
-      // localStorage.setItem("notes", JSON.stringify(storedNotes));
-
       // Dispatch event agar List.js menangkapnya
       window.dispatchEvent(new CustomEvent("note-added", { detail: newNote }));
 

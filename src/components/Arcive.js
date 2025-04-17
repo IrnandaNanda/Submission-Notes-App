@@ -47,7 +47,6 @@ class archive extends HTMLElement {
             })
       this.render();
     } else {
-          console.error("Error saat menghapus catatan:", responseJson.message);
           Swal.fire({
             position: 'top-end',
             title: 'Error!',
@@ -85,7 +84,6 @@ class archive extends HTMLElement {
       }
       proses.style.display = "none"
     } catch (error) {
-      console.error("Error saat mengarsipkan catatan:", error);
               Swal.fire({
                 position: 'top-end',
                 icon: "error",
